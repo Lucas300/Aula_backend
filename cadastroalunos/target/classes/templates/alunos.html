@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="pt-br" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cadastro de alunos</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 900px;
+            margin: 40px auto;
+            padding: 0 20px;
+            color: #222;
+        }
+
+        .botao {
+            display: inline-block;
+            padding: 9px 14px;
+            border: 0;
+            border-radius: 4px;
+            background: #175cd3;
+            color: white;
+            text-decoration: none;
+            cursor: pointer;
+            font-size: 14px;
+        }
+
+        .excluir {
+            background: #b42318;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        th,
+        td {
+            border: 1px solid #ddd;
+            padding: 10px;
+            text-align: left;
+        }
+
+        th {
+            background: #f2f4f7;
+        }
+
+        .acoes {
+            display: flex;
+            gap: 8px;
+            align-items: center;
+        }
+
+        form {
+            margin: 0;
+        }
+    </style>
+</head>
+
+<body>
+
+    <h1>Cadastro de alunos</h1>
+
+    <a class="botao" th:href="@{/alunos/novo}">
+        Cadastrar aluno
+    </a>
+
+    <p th:if="${#lists.isEmpty(alunos)}">
+        Nenhum aluno cadastrado.
+    </p>
+
+    <table th:unless="${#lists.isEmpty(alunos)}">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Matrícula</th>
+                <th>Nome</th>
+                <th>E-mail</th>
+                <th>Curso</th>
+                <th>Ações</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            <tr th:each="aluno : ${alunos}">
+                <td th:text="${aluno.id}"></td>
+                <td th:text="${aluno.matricula}"></td>
+                <td th:text="${aluno.nome}"></td>
+                <td th:text="${aluno.email}"></td>
+                <td th:text="${aluno.curso}"></td>
+
+                <td>
+                    <div class="acoes">
+                        <a
+                            class="botao"
+                            th:href="@{/alunos/{id}/editar(id=${aluno.id})}">
+                            Editar
+                        </a>
+
+                        <form
+                            th:action="@{/alunos/{id}/excluir(id=${aluno.id})}"
+                            method="post"
+                            onsubmit="return confirm('Deseja excluir este aluno?');">
+
+                            <button class="botao excluir" type="submit">
+                                Excluir
+                            </button>
+                        </form>
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+
+</body>
+
+</html>

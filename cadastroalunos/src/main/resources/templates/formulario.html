@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="pt-br" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Formulário de aluno</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 600px;
+            margin: 40px auto;
+            padding: 0 20px;
+            color: #222;
+        }
+
+        label {
+            display: block;
+            margin: 15px 0 5px;
+            font-weight: bold;
+        }
+
+        input {
+            box-sizing: border-box;
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #aaa;
+            border-radius: 4px;
+        }
+
+        .erro {
+            color: #b42318;
+            margin: 5px 0;
+        }
+
+        .acoes {
+            display: flex;
+            gap: 12px;
+            align-items: center;
+            margin-top: 20px;
+        }
+
+        button {
+            padding: 10px 18px;
+            border: 0;
+            border-radius: 4px;
+            background: #175cd3;
+            color: white;
+            cursor: pointer;
+        }
+    </style>
+</head>
+
+<body>
+
+    <h1 th:text="${aluno.id == null} ? 'Cadastrar aluno' : 'Editar aluno'">
+        Formulário de aluno
+    </h1>
+
+    <form
+        th:object="${aluno}"
+        th:action="${aluno.id == null}
+            ? @{/alunos}
+            : @{/alunos/{id}/editar(id=${aluno.id})}"
+        method="post">
+
+        <label for="matricula">Matrícula</label>
+        <input
+            id="matricula"
+            type="text"
+            th:field="*{matricula}"
+            maxlength="30"
+            required>
+
+        <p
+            class="erro"
+            th:if="${#fields.hasErrors('matricula')}"
+            th:errors="*{matricula}">
+        </p>
+
+        <label for="nome">Nome</label>
+        <input
+            id="nome"
+            type="text"
+            th:field="*{nome}"
+            maxlength="100"
+            required>
+
+        <p
+            class="erro"
+            th:if="${#fields.hasErrors('nome')}"
+            th:errors="*{nome}">
+        </p>
+
+        <label for="email">E-mail</label>
+        <input
+            id="email"
+            type="email"
+            th:field="*{email}"
+            maxlength="150"
+            required>
+
+        <p
+            class="erro"
+            th:if="${#fields.hasErrors('email')}"
+            th:errors="*{email}">
+        </p>
+
+        <label for="curso">Curso</label>
+        <input
+            id="curso"
+            type="text"
+            th:field="*{curso}"
+            maxlength="100"
+            required>
+
+        <p
+            class="erro"
+            th:if="${#fields.hasErrors('curso')}"
+            th:errors="*{curso}">
+        </p>
+
+        <div class="acoes">
+            <button type="submit">Salvar</button>
+            <a th:href="@{/}">Voltar para a lista</a>
+        </div>
+    </form>
+
+</body>
+
+</html>
